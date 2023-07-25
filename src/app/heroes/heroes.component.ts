@@ -5,23 +5,23 @@ import { HEROES } from '../mock-heroes';
 import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
+import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-heroes',
   standalone: true,
-  imports: [CommonModule, HeroDetailComponent],
+  imports: [CommonModule, HeroDetailComponent, RouterModule],
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
 
   selectedHero?: Hero;
-  heroes: Hero[] = [];
-  @Input() ngModel: string = '';
+  heroes$: Observable<Hero[]> | undefined;
 
-  constructor(private heroService: HeroService, private messageService: MessageService) {
-
-  }
+  constructor(private heroService: HeroService,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getHeroes();
@@ -33,8 +33,7 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes()
-        .subscribe(heroes => this.heroes = heroes);
+    this.heroes$ = this.heroService.getHeroes();
   }
 
 }
