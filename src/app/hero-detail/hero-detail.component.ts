@@ -51,19 +51,14 @@ export class HeroDetailComponent implements OnInit{
     event.preventDefault();
     const newname = document.getElementById('hero-name') as HTMLInputElement;
     const heroNewName = newname.value;
-    
-    //console.log('fuck',this.heroName.value.namehero);
     if(this.hero$) {
       this.hero$.pipe(
         switchMap((hero) => this.heroService.updateHero(hero, heroNewName))
-      ).
-      subscribe((updatedHero) => {
+      )
+      .subscribe((updatedHero) => {
          // Mettez à jour votre modèle avec le héros mis à jour si nécessaire
          console.log('Hero mis à jour :', updatedHero);
-        // console.log(heroNewName)
-        // this.goBack();
       });
-      // this.heroService.updateHero(this.hero$);
     }
   }
 
